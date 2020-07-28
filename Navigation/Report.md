@@ -29,7 +29,8 @@ Collect as many yellow bananas as possible at any given time and avoid blue ones
 The agent has to find a banana next to him and move in that direction, prioritizing the yellow ones
 It will be done on a two-dimensional plane despite the game being three-dimensional
 
-### Algorithm used: Deep Q-Learning 
+### Algorithm used: Deep Q-Learning
+[paper]
 
 There are two processes that are intertwined in this algorithm
 
@@ -38,5 +39,15 @@ There are two processes that are intertwined in this algorithm
 
 These processes do not depend directly on each other, so multiple sampling steps can be applied followed by learning
 
-### Jacqueline susan Mejía C.
+### Agent implementation
+
+For the implementation, DQN was used in its basic version mentioned in the Q-Learning lesson in addition to dqn_agent.py and model.py, which works quite well for training. DQN has two upper layers of 64 units each adomea of the RELU activation and a lost MSE.
+The following was observed: the maximum average score (last 100) after enough training episodes and the time it took to reach the threshold of 13 points in the average score.
+
+    eps_start=1.0, eps_end=0.01, eps_decay=0.995
+  	Environment solved in 390 episodes!	Average Score: 13.03
+  	scores leveled out @ ~ 11,0 (2000 episodes)
+  
+
+by @susyjam
 
