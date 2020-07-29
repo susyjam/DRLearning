@@ -57,12 +57,11 @@ The following was observed: the maximum average score (last 100) after enough tr
     LR = 5e-4                     # learning rate 
     UPDATE_EVERY = 4              # how often to update the network
 
-    
 ### Ideas for Future Work
 
     1. I could try the Double DQN and see what changes exist regarding that model
     2. Could implement Rainbow-Version of DQN.
     3. Could implement CNN architecture to learn tha value- Function
 
-by @susyjam
+                                                                                                                                                    by @susyjam
 
