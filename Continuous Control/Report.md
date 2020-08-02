@@ -2,6 +2,7 @@
 
 [image1]: https://user-images.githubusercontent.com/10624937/43851024-320ba930-9aff-11e8-8493-ee547c6af349.gif "Trained Agent"
 [image2]: https://user-images.githubusercontent.com/10624937/43851646-d899bf20-9b00-11e8-858c-29b5c2c94ccc.png "Crawler"
+[Paper DDPG ]: https://arxiv.org/pdf/1509.02971.pdf
 
 
 # Project 2: Continuous Control
@@ -26,43 +27,37 @@ The environment is considered solved, when the average (over 100 episodes) of th
 
 ## Objective
 
-Collect as many yellow bananas as possible at any given time and avoid blue ones.
-The agent has to find a banana next to him and move in that direction, prioritizing the yellow ones
-It will be done on a two-dimensional plane despite the game being three-dimensional
+Train 20 angels in more than 100 episodes in addition to the average training score exceeding 30
 
-## Algorithm used: Deep Q-Learning
-[paper]
+## Algorithm used: DDPG: Deep Deterministic Policy Gradient
+[paper DDPG]
 
-There are two processes that are intertwined in this algorithm
-
-1. Take samples of the environment by performing actions and save the experienced and observed tuples in a repetition memory.
-2. Randomly select a small batch of tuples in memory and learn from that batch using a gradient descent refresh step.
-
-These processes do not depend directly on each other, so multiple sampling steps can be applied followed by learning.
+DDPG is a different type of Actor-Critical method, it could be like approximate DQN instead of a real critical actor. The reason for this is that the critical DDPG is used to approximate the maximizer on the Q values of the next state and not as a learned baseline.
+One of the limitations of the DQN agent is that it is not easy to use in continuous action spaces.
+In DDPG two deep neural networks are used: the actor and the critic; Where the actor is used to approximate the optimal policy in a deterministic way, this means that we always want to generate the best action believed for any given state.
+This is different in stochastic policies in that we want the policy to learn a probability distribution on stocks.
+At DDPG he seeks a deterministic policy; This means the best action believed every time we consult the network of actors. The actor is basically learning the best action and the critic learns to evaluate the optimal action value function.
     
 ## Agent implementation
 
-For the implementation, DQN was used in its basic version mentioned in the Q-Learning lesson in addition to dqn_agent.py and model.py, which works quite well for training. DQN has two upper layers of 64 units each adomea of the RELU activation and a lost MSE.
-The following was observed: the maximum average score (last 100) after enough training episodes and the time it took to reach the threshold of 13 points in the average score.
-
-    eps_start=1.0, eps_end=0.01, eps_decay=0.995
-  	Environment solved in 390 episodes!	Average Score: 13.03
-  	scores leveled out @ ~ 11,0 (2000 episodes)
+To solve the problem use the DDPG agorithm implemented parameters of the original document, based on trial and error was changing some things, (too many tests and hours of training)
+At the beginning I did not understand why my culva did not leave a score between 0-1 despite the number of episodes this did not change, I was changing the BUFER from 1e1 to 1e9 where the results and the graphics varied, initially I took 1000 epoch but the results were disastrous, it changed to start from something very low like 150 epoch and the thing changed, my score parameters were increasing, reaching as my maximum of 5 the average Score. I was alternated the random_seed and the results that reached me as a maximum of 19 (my greatest achievement after days). In the end, I achieved the expected results by playing with the DDPG hyperparameters, in addition to the fact that the actor had two hidden layers, both with relu-actiation and using the output of 1 unit + tanh activation; The critical model with 2 hidden layers (plus relu activation), a contact layer (with a size of actionspace (4)) and an output layer.
     
 ### DQN Hyperparameters used in this project
 
-    BUFFER_SIZE = int(1e5)        # replay buffer size
-    BATCH_SIZE = 64               # minibatch size
-    GAMMA = 0.99                  # discount factor
-    TAU = 1e-3                    # for soft update of target parameters
-    LR = 5e-4                     # learning rate 
-    UPDATE_EVERY = 4              # how often to update the network
+    BUFFER_SIZE = int(1e5)  # replay buffer size
+    BATCH_SIZE = 128        # minibatch size
+    GAMMA = 0.99            # discount factor
+    TAU = 1e-3              # for soft update of target parameters
+    UPDATE_EVERY = 1        # how many steps to take before updating target network
+    LR_ACTOR = 1e-4         # learning rate of the actor 
+    LR_CRITIC = 1e-4        # learning rate of the critic
+    WEIGHT_DECAY = 0        # L2 weight decay
+
 
 ### Ideas for Future Work
 
-    1. I could try the Double DQN and see what changes exist regarding that model
-    2. Could implement Rainbow-Version of DQN.
-    3. Could implement CNN architecture to learn tha value- Function
+    1. You could try different agents like PPO or A3C
 
  by @susyjam
 
