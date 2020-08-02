@@ -27,7 +27,7 @@ The environment is considered solved, when the average (over 100 episodes) of th
 
 ## Objective
 
-Train 20 angels in more than 100 episodes in addition to the average training score exceeding 30
+Train 20 agents in more than 100 episodes in addition to the average training score exceeding 30
 
 ## Algorithm used: DDPG: Deep Deterministic Policy Gradient
 [paper DDPG]
