@@ -12,14 +12,14 @@ import torch.optim as optim
 BUFFER_SIZE = int(1e5)  # replay buffer size
 BATCH_SIZE = 128        # minibatch size
 GAMMA = 0.99            # discount factor
-TAU = 1e-3              # for soft update of target parameters
-LR_ACTOR = 1e-4         # learning rate of the actor 
-LR_CRITIC = 1e-3        # learning rate of the critic
+TAU = 1e-3             # for soft update of target parameters
+UPDATE_EVERY = 1        # how many steps to take before updating target network
+LR_ACTOR = 1e-4       # learning rate of the actor 
+LR_CRITIC = 1e-4        # learning rate of the critic
 WEIGHT_DECAY = 0        # L2 weight decay
-UPDATE_EVERY = 1        # how many steps to take before updating target networks
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
+#device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cpu")
 class Agent():
     """Interacts with and learns from the environment."""
     
@@ -45,15 +45,12 @@ class Agent():
         self.critic_local = Critic(state_size, action_size, random_seed).to(device)
         self.critic_target = Critic(state_size, action_size, random_seed).to(device)
         self.critic_optimizer = optim.Adam(self.critic_local.parameters(), lr=LR_CRITIC, weight_decay=WEIGHT_DECAY)
-        
-        # Step counter for Agent
-        self.t_step = 0
-
         # Noise process
         self.noise = OUNoise(action_size, random_seed)
-
         # Replay memory
         self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
+        # Step counter for Agent
+        self.t_step = 0
     
     def step(self, state, action, reward, next_state, done, updates = 1):
         """Save experience in replay memory, and use random sample from buffer to learn."""
@@ -79,10 +76,10 @@ class Agent():
             action = self.actor_local(state).cpu().data.numpy()
         self.actor_local.train()
         if add_noise:
-            # damping Ornstein-Uhlenbeck Noise the closer we get to the maximum score per episode (30)
-            goal = 30
+            # damping Ornstein-Uhlenbeck Noise the closer we get to the maximum score per episode (40)
+            goal = 40
             noise_damp = (goal-noise_damp)/goal
-            action += self.noise.sample()
+            action += self.noise.sample()*noise_damp
         return np.clip(action, -1, 1)
 
     def reset(self):

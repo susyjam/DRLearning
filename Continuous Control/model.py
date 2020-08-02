@@ -12,7 +12,7 @@ def hidden_init(layer):
 class Actor(nn.Module):
     """Actor (Policy) Model."""
 
-    def __init__(self, state_size, action_size, seed, fc1_units=400, fc2_units=300):
+    def __init__(self, state_size, action_size, seed, fc1_units=128, fc2_units=128):
         """Initialize parameters and build model.
         Params
         ======
@@ -33,6 +33,8 @@ class Actor(nn.Module):
         self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
         self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
         self.fc3.weight.data.uniform_(-3e-3, 3e-3)
+        #self.fc3.weight.data.uniform_(-3e-3, 3e-2)
+
 
     def forward(self, state):
         """Build an actor (policy) network that maps states -> actions."""
@@ -44,7 +46,7 @@ class Actor(nn.Module):
 class Critic(nn.Module):
     """Critic (Value) Model."""
 
-    def __init__(self, state_size, action_size, seed, fcs1_units=400, fc2_units=300):
+    def __init__(self, state_size, action_size, seed, fcs1_units=128, fc2_units=128):
         """Initialize parameters and build model.
         Params
         ======
@@ -65,6 +67,7 @@ class Critic(nn.Module):
         self.fcs1.weight.data.uniform_(*hidden_init(self.fcs1))
         self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
         self.fc3.weight.data.uniform_(-3e-3, 3e-3)
+        #self.fc3.weight.data.uniform_(-3e-3, 3e-2)
 
     def forward(self, state, action):
         """Build a critic (value) network that maps (state, action) pairs -> Q-values."""
