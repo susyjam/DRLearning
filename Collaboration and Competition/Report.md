@@ -61,5 +61,6 @@ I made several workouts modifying the hyperparameters the results had very varia
 ### Ideas for Future Work
 
     1. Could implement the prioritized experience replication of the DDQN document [Paper DDPG]
+    2. You could do more than 2000 episodes and see the results.
 
  by @susyjam
