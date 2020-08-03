@@ -2,9 +2,11 @@
 
 [image1]: https://user-images.githubusercontent.com/10624937/42135623-e770e354-7d12-11e8-998d-29fc74429ca2.gif "Trained Agent"
 [image2]: https://user-images.githubusercontent.com/10624937/42135622-e55fb586-7d12-11e8-8a54-3c31da15a90a.gif "Soccer"
-
+[Paper DDPG]: https://arxiv.org/pdf/1509.02971.pdf
+[20 agents]: https://github.com/susyjam/DRLearning/tree/master/Continuous%20Control
 
 # Project 3: Collaboration and Competition
+# Tennis
 
 ### Introduction
 
@@ -25,9 +27,10 @@ The environment is considered solved, when the average (over 100 episodes) of th
 
 ## Objective
 
-Train 20 angels in more than 100 episodes in addition to the average training score exceeding 30
+Train two RL officers to play tennis. Agents must keep the ball in play for as long as possible.
 
-## Algorithm used: DDPG: Deep Deterministic Policy Gradient
+## Algorithm used: Multi-Agent Deep Deterministic Policy Gradient (MADDPG)
+This project uses a DDPG: Deep Deterministic Policy Gradient
 [paper DDPG]
 
 DDPG is a different type of Actor-Critical method, it could be like approximate DQN instead of a real critical actor. The reason for this is that the critical DDPG is used to approximate the maximizer on the Q values of the next state and not as a learned baseline.
@@ -38,8 +41,11 @@ At DDPG he seeks a deterministic policy; This means the best action believed eve
     
 ## Agent implementation
 
-To solve the problem use the DDPG agorithm implemented parameters of the original document, based on trial and error was changing some things, (too many tests and hours of training)
-At the beginning I did not understand why my culva did not leave a score between 0-1 despite the number of episodes this did not change, I was changing the BUFER from 1e1 to 1e9 where the results and the graphics varied, initially I took 1000 epoch but the results were disastrous, it changed to start from something very low like 150 epoch and the thing changed, my score parameters were increasing, reaching as my maximum of 5 the average Score. I was alternated the random_seed and the results that reached me as a maximum of 19 (my greatest achievement after days). In the end, I achieved the expected results by playing with the DDPG hyperparameters, in addition to the fact that the actor had two hidden layers, both with relu-actiation and using the output of 1 unit + tanh activation; The critical model with 2 hidden layers (plus relu activation), a contact layer (with a size of actionspace (4)) and an output layer.
+To solve the problem, I used the DDPG agorithm that implemented the parameters of the original document, based on trial and error that was changing some things in the initial code, I chose this algorithm because in task number 2 [20 agents] I understood the algorithm well . Add the OUNoise.py and rbuffer.py classes; modify the maddpg.py and model, py classes
+
+At first I ran the same program but realized that I needed to add a training layer to both the actor and the critic, modifying the actor with 3 hidden layers, all with leaky reactivation and using the output of 1 unit + tanh activation; The critical model with 3 hidden layers (plus activation of leaky relu), a contact layer (with an action space size (4)) and an output layer.
+
+I made several workouts modifying the hyperparameters the results had very variable variations but in the end I modified the LR_ACTOR to 1e-5 and I achieved a correct learning successfully accomplishing the task.
     
 ### DQN Hyperparameters used in this project
 
@@ -48,13 +54,12 @@ At the beginning I did not understand why my culva did not leave a score between
     GAMMA = 0.99            # discount factor
     TAU = 1e-3              # for soft update of target parameters
     UPDATE_EVERY = 1        # how many steps to take before updating target network
-    LR_ACTOR = 1e-4         # learning rate of the actor 
+    LR_ACTOR = 1e-5         # learning rate of the actor 
     LR_CRITIC = 1e-4        # learning rate of the critic
     WEIGHT_DECAY = 0        # L2 weight decay
 
-
 ### Ideas for Future Work
 
-    1. You could try different agents like PPO or A3C
+    1. Could implement the prioritized experience replication of the DDQN document [Paper DDPG]
 
  by @susyjam
