@@ -60,6 +60,7 @@ I made several workouts modifying the hyperparameters the results had very varia
 
 ### Ideas for Future Work
 
-    1. Could implement the prioritized experience replication of the DDQN document [Paper DDPG]
+    1. Could implement the prioritized experience replication of the DDQN document 
+   [Paper DDPG]
 
  by @susyjam
